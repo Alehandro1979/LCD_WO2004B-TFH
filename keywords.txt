@@ -1,0 +1,30 @@
+#######################################
+# Syntax Coloring Map For LCD_wo2004b
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+LCD_wo2004b	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+init	KEYWORD2
+clear	KEYWORD2
+
+print	KEYWORD2
+setCursor	KEYWORD2
+
+home	KEYWORD2
+rotateOn	KEYWORD2
+shiftStartLine	KEYWORD2
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+
