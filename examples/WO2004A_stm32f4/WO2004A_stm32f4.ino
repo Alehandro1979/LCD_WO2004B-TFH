@@ -15,7 +15,7 @@ LCD_wo2004b lcd(RST_PIN); // I2C address: 0x78 << 1; Display size: 20x4
 
 void setup()
 {
-  int8_t i = 32;
+  
 
   Wire.setSDA(SDA_pin); // using pin STM32
   Wire.setSCL(SCL_pin); // using pin STM32
@@ -26,18 +26,23 @@ void setup()
   // TEST
   lcd.init();
   lcd.rotateOn();
-  lcd.shiftStartLine(i);
+  lcd.shiftStartLine(32);
   lcd.print("Hello");
   lcd.print("Display", 1, 6);
   lcd.print("WO2004b-TFH#", 2, 4);
   lcd.print("STARTING!", 3, 5);
   lcd.setCursor(3, 0);
 
-  while (i > 0)
+  int8_t i = 32;
+  //uint8_t i = 32;
+  //while (i >= 1)
+  while (1)
   {
     delay(130);
+    if (i == 0) delay (2000);
     i--;
     lcd.shiftStartLine(i);
+    if (i==-32) i = 32;
   }
 }
 
