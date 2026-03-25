@@ -22,6 +22,8 @@ void setup()
   Wire.begin();
   // Wire.begin(SDA_pin,SCL_pin); // using pin esp32
   // Wire.setClock (1000000);
+
+  // TEST
   lcd.init();
   lcd.rotateOn();
   lcd.shiftStartLine(i);
