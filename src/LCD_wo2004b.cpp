@@ -12,6 +12,7 @@ LCD_wo2004b::LCD_wo2004b(uint8_t rst_pin)
 
 void LCD_wo2004b::init()
 {
+  // Reset Display
   pinMode(_rst_pin, OUTPUT);
   digitalWrite(_rst_pin, LOW);
   delay(10);
@@ -21,19 +22,19 @@ void LCD_wo2004b::init()
   _init_lcd = true;
 
   // IS Instruction Table 0
-  Wire.beginTransmission(0x3C);
-  WriteIns(0x20); // Function Set /Select Table 0
-  WriteIns(0x01); // Clear display
+  Wire.beginTransmission(0x3C); // Write to adress 0x78
+  WriteIns(0x20);               // Function Set /Select Table 0
+  WriteIns(0x01);               // Clear display
   Wire.endTransmission();
 
   delay(20);
 
-  Wire.beginTransmission(0x3C);
-  WriteIns(0x90); // Set DDRAM address
-  WriteIns(0x00); // Set DDRAM address
-  WriteIns(0x06); // Set Entry Mode
+  Wire.beginTransmission(0x3C); // Write to adress 0x78
+  WriteIns(0x90);               // Set DDRAM address
+  WriteIns(0x00);               // Set DDRAM address
+  WriteIns(0x06);               // Set Entry Mode
   // WriteIns (0x0C); //Display Control
-  WriteIns(0x0F); // Display Control + blink cursor
+  WriteIns(0x0F); // Display Control + blink + cursor
 
   // IS Instruction Table 1
   WriteIns(0x21); // Function Set : 0 0 1 0 0 0 IS2 IS1  /Select Table 1
@@ -46,7 +47,7 @@ void LCD_wo2004b::init()
 
   delay(100);
 
-  Wire.beginTransmission(0x3C);
+  Wire.beginTransmission(0x3C); // Write to adress 0x78
   // IS Instruction Table 3
   WriteIns(0x23); // Function Set : 0 0 1 0 0 0 IS2 IS1  /Select Table 3
   WriteIns(0x81); // Contrast: VOP SET
@@ -69,14 +70,14 @@ void LCD_wo2004b::init()
   WriteIns(0x88);
   Wire.endTransmission();
 
-  Wire.beginTransmission(0x3C);
-  WriteIns(0x28); // Frame rate adjusting enable
-  WriteIns(0xB2); // 1st Frame rate control
-  WriteIns(0xEF); // 2nd LN[7:0]
-  WriteIns(0x00); // 3rd LN[15:8]  95Hz
-  WriteIns(0x93); // OSC Clock Select : Fosc/1
-  WriteIns(0x99); // OSC Divide Select : 750KHz
-  WriteIns(0xE3); // Exit IST test command
+  Wire.beginTransmission(0x3C); // Write to adress 0x78
+  WriteIns(0x28);               // Frame rate adjusting enable
+  WriteIns(0xB2);               // 1st Frame rate control
+  WriteIns(0xEF);               // 2nd LN[7:0]
+  WriteIns(0x00);               // 3rd LN[15:8]  95Hz
+  WriteIns(0x93);               // OSC Clock Select : Fosc/1
+  WriteIns(0x99);               // OSC Divide Select : 750KHz
+  WriteIns(0xE3);               // Exit IST test command
 
   // WriteIns (0x20); //Function Set /Select Table 0
   _init_lcd = false;
@@ -85,9 +86,9 @@ void LCD_wo2004b::init()
 
 void LCD_wo2004b::clear()
 {
-  Wire.beginTransmission(0x3C);
-  Wire.write(0x80);
-  Wire.write(0x01);
+  Wire.beginTransmission(0x3C); // Write to adress 0x78
+  Wire.write(0x80);             // Write instruction
+  Wire.write(0x01);             // Instr - Clear
   Wire.endTransmission();
 }
 
@@ -96,11 +97,11 @@ void LCD_wo2004b::setCursor(uint8_t _line, uint8_t _pos)
   uint8_t _adress = _line * 24 + _pos;
   if (_rotate)
     _adress = _adress + 4;
-  Wire.beginTransmission(0x3C);
-  Wire.write(0x80);
-  Wire.write(0x90); // Set DDRAM address
-  Wire.write(0x80);
-  Wire.write(_adress); // New adress
+  Wire.beginTransmission(0x3C); // Write to adress 0x78
+  Wire.write(0x80);             // Write instruction
+  Wire.write(0x90);             // Set DDRAM address
+  Wire.write(0x80);             // Write instruction
+  Wire.write(_adress);          // New Cursor adress
   Wire.endTransmission();
 }
 
@@ -132,41 +133,39 @@ void LCD_wo2004b::print(String _text, uint8_t _line, uint8_t _pos)
 void LCD_wo2004b::WriteIns(uint8_t Instr)
 {
   if (_init_lcd == false)
-    Wire.beginTransmission(0x3C);
-  Wire.write(0x80);
-  Wire.write(Instr);
+    Wire.beginTransmission(0x3C); // Write to adress 0x78
+  Wire.write(0x80);               // Write instruction
+  Wire.write(Instr);              // Set New instruction
   if (_init_lcd == false)
     Wire.endTransmission();
 }
 
 void LCD_wo2004b::WriteData(const uint8_t *_data_array, uint8_t _len)
 {
-  Wire.beginTransmission(0x3C);
-
+  Wire.beginTransmission(0x3C); // Write to adress 0x78
   for (uint8_t i = 0; i < _len; i++)
   {
-    Wire.write(0xC0);
+    Wire.write(0xC0); // Write Data to display
     Wire.write(_data_array[i]);
   }
-
   Wire.endTransmission();
 }
 
 void LCD_wo2004b::rotateOn()
 {
   _rotate = true;
-  Wire.beginTransmission(0x3C);
-  WriteIns(0x22);
-  WriteIns(0x47); // Select CGRAM & COM/SEG direction rotation
+  Wire.beginTransmission(0x3C); // Write to adress 0x78
+  WriteIns(0x22);               // Select Table 2
+  WriteIns(0x47);               // Select CGRAM & COM/SEG direction rotation
   Wire.endTransmission();
   setCursor(0, 0);
 }
 
 void LCD_wo2004b::shiftStartLine(uint8_t _shiftSL)
 {
-  Wire.beginTransmission(0x3C);
-  WriteIns(0x23);
-  WriteIns(0x82); // start line setting
+  Wire.beginTransmission(0x3C); // Write to adress 0x78
+  WriteIns(0x23);               // Select Table 3
+  WriteIns(0x82);               // start line setting
   WriteIns(_shiftSL);
   Wire.endTransmission();
 }
