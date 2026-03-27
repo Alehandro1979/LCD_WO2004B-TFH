@@ -36,7 +36,7 @@ void setup()
   int8_t i = 32;
   while (1)
   {
-    delay(130);
+    if (i != 32) delay(130);
     if (i == 0) delay (2000);
     i--;
     lcd.shiftStartLine(i);
