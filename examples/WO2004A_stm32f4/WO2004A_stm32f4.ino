@@ -34,7 +34,6 @@ void setup()
   lcd.setCursor(3, 0);
 
   int8_t i = 32;
-  //while (i >= 1)
   while (1)
   {
     delay(130);
