@@ -16,17 +16,20 @@ public:
   void init();
   void clear();
   void print(String);
+  void print(char);
   void print(String, uint8_t, uint8_t);
   void setCursor(uint8_t, uint8_t);
   void home();
   void rotateOn();
   void shiftStartLine(uint8_t);
+  void WriteData_char(const char *, size_t);
 
 private:
   uint8_t _rst_pin;
   bool _rotate;
   void WriteIns(uint8_t);
   void WriteData(const uint8_t *, uint8_t);
+  
 };
 
 #endif

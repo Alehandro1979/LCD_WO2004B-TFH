@@ -121,6 +121,14 @@ void LCD_wo2004b::print(String _text)
   WriteData(_text_array, _len);
 }
 
+void LCD_wo2004b::print(char _symbol)
+{
+  Wire.beginTransmission(0x3C); // Write to adress 0x78
+  Wire.write(0xC0); // Write Data to display
+  Wire.write(_symbol);
+  Wire.endTransmission();
+}
+
 void LCD_wo2004b::print(String _text, uint8_t _line, uint8_t _pos)
 {
   setCursor(_line, _pos);
@@ -144,6 +152,17 @@ void LCD_wo2004b::WriteData(const uint8_t *_data_array, uint8_t _len)
 {
   Wire.beginTransmission(0x3C); // Write to adress 0x78
   for (uint8_t i = 0; i < _len; i++)
+  {
+    Wire.write(0xC0); // Write Data to display
+    Wire.write(_data_array[i]);
+  }
+  Wire.endTransmission();
+}
+
+void LCD_wo2004b::WriteData_char(const char *_data_array, size_t _len)
+{
+  Wire.beginTransmission(0x3C); // Write to adress 0x78
+  for (size_t i = 0; i < _len; i++)
   {
     Wire.write(0xC0); // Write Data to display
     Wire.write(_data_array[i]);
