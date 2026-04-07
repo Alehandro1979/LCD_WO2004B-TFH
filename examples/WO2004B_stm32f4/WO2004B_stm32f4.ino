@@ -28,10 +28,10 @@ void setup()
   lcd.rotateOn();
   lcd.shiftStartLine(32);
   lcd.print("Hello");
-  lcd.print("Display", 1, 6);
-  lcd.print("WO2004b-TFH#", 2, 4);
-  lcd.print("STARTING!", 3, 5);
-  lcd.setCursor(3, 0);
+  lcd.print("Display", 6, 1);
+  lcd.print("WO2004b-TFH#", 4, 2);
+  lcd.print("STARTING!", 5, 3);
+  lcd.setCursor(0, 3);
 
   int8_t i = 32;
   while (1)
