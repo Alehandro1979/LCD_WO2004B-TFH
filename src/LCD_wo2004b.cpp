@@ -92,7 +92,7 @@ void LCD_wo2004b::clear()
   Wire.endTransmission();
 }
 
-void LCD_wo2004b::setCursor(uint8_t _pos, uint8_t _line)
+void LCD_wo2004b::setCursor(size_t _pos, size_t _line)
 {
   uint8_t _adress = _line * 24 + _pos;
   if (_rotate)
@@ -124,7 +124,7 @@ void LCD_wo2004b::print(String _text)
 void LCD_wo2004b::print(char _symbol)
 {
   Wire.beginTransmission(0x3C); // Write to adress 0x78
-  Wire.write(0xC0); // Write Data to display
+  Wire.write(0xC0);             // Write Data to display
   Wire.write(_symbol);
   Wire.endTransmission();
 }
