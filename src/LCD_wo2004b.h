@@ -5,11 +5,11 @@
 extern "C" {
 #endif
 
-#ifndef Arduino_h
+#ifndef ARDUINO_H
 #include <Arduino.h>
 #endif // Arduino_h
 
-#ifndef Wire_h
+#ifndef WIRE_H
 #include <Wire.h>
 #endif // Wire_h
 

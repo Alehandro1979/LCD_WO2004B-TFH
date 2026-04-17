@@ -33,8 +33,8 @@ void LCD_wo2004b::init()
   WriteIns(0x90);               // Set DDRAM address
   WriteIns(0x00);               // Set DDRAM address
   WriteIns(0x06);               // Set Entry Mode
-  // WriteIns (0x0C); //Display Control
-  WriteIns(0x0F); // Display Control + blink + cursor
+  WriteIns (0x0C); //Display Control
+  //WriteIns(0x0F); // Display Control + blink + cursor
 
   // IS Instruction Table 1
   WriteIns(0x21); // Function Set : 0 0 1 0 0 0 IS2 IS1  /Select Table 1
